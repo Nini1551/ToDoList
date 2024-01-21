@@ -22,18 +22,17 @@ class ToDoList:
             raise ValueError("Index invalide ! ")
 
     def sort(self):
-        self.tasks.sort(key=lambda task: task.is_completed)
+        self.tasks.sort(key=lambda task: task.completed)
 
     def has_uncompleted_task(self) -> bool:
-        return any(map(lambda task: not task.is_completed, self.tasks))
+        return any(map(lambda task: not task.completed, self.tasks))
 
     def get_uncompleted_tasks(self):
         uncompleted_todo_list = ToDoList()
         for task in self.tasks:
-            if not task.is_completed:
-                uncompleted_todo_list.add_task(task.description)
-            else:
+            if task.completed:
                 break
+            uncompleted_todo_list.add_task(task.description)
         return uncompleted_todo_list
 
     def get_str_tasks(self) -> str:
