@@ -12,12 +12,17 @@ class ToDoList:
     def add_task(self, description: str):
         task = Task(description)
         self.tasks.append(task)
+        self.sort()
 
     def mark_task_completed(self, index: int):
         if 0 <= index < len(self.tasks):
             self.tasks[index].mark_completed()
+            self.sort()
         else:
             raise ValueError("Index invalide ! ")
+
+    def sort(self):
+        self.tasks.sort(key=lambda task: task.is_completed)
 
     def has_uncompleted_task(self) -> bool:
         return any(map(lambda task: not task.is_completed, self.tasks))
