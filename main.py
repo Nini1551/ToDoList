@@ -1,53 +1,5 @@
 import os
-
-
-class Task:
-    def __init__(self, description: str, completed: bool = False):
-        self.__description = description
-        self.__completed = completed
-
-    @property
-    def description(self) -> str:
-        return self.__description
-
-    @property
-    def completed(self) -> bool:
-        return self.__completed
-
-    def __str__(self):
-        status = "[x]" if self.completed else "[ ]"
-        return f"{status} - {self.description}"
-
-    def mark_completed(self):
-        self.__completed = True
-
-
-class ToDoList:
-    def __init__(self):
-        self.__tasks = []
-
-    @property
-    def tasks(self) -> list[Task]:
-        return self.__tasks
-
-    def add_task(self, description: str):
-        task = Task(description)
-        self.tasks.append(task)
-
-    def mark_task_completed(self, index: int):
-        if 0 <= index < len(self.tasks):
-            self.tasks[index].mark_completed()
-        else:
-            raise ValueError("Index invalide ! ")
-
-    def get_tasks(self) -> str:
-        if not self.tasks:
-            return "Aucune tâche dans la liste."
-
-        str_tasks = 'To Do List :\n'
-        for i, task in enumerate(self.tasks):
-            str_tasks += f"{i + 1}. {task}\n"
-        return str_tasks[:-1]
+from lib.to_do_list import ToDoList
 
 
 def clear_screen():
