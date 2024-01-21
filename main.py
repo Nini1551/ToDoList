@@ -24,7 +24,7 @@ if __name__ == "__main__":
 
         elif choice == "2":
             try:
-                print(f"\n{todo_list.get_str_tasks()}\n")
+                print(f"\n{todo_list.get_uncompleted_str_tasks()}\n")
                 index = int(input("Entrez l'index de la tâche terminée: ")) - 1
                 todo_list.mark_task_completed(index)
             except ValueError as error:

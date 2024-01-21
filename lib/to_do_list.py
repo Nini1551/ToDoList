@@ -32,6 +32,8 @@ class ToDoList:
         for task in self.tasks:
             if not task.is_completed:
                 uncompleted_todo_list.add_task(task.description)
+            else:
+                break
         return uncompleted_todo_list
 
     def get_str_tasks(self) -> str:
