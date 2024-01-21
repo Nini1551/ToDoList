@@ -19,6 +19,16 @@ class ToDoList:
         else:
             raise ValueError("Index invalide ! ")
 
+    def has_uncompleted_task(self) -> bool:
+        return any(map(lambda task: not task.is_completed, self.tasks))
+
+    def get_uncompleted_tasks(self):
+        uncompleted_todo_list = ToDoList()
+        for task in self.tasks:
+            if not task.is_completed:
+                uncompleted_todo_list.add_task(task.description)
+        return uncompleted_todo_list
+
     def get_str_tasks(self) -> str:
         if not self.tasks:
             return "Aucune tâche dans la liste."
@@ -29,12 +39,8 @@ class ToDoList:
         return str_tasks[:-1]
 
     def get_uncompleted_str_tasks(self) -> str:
-        has_uncompleted_tasks = any(map(lambda task: not task.is_completed, self.tasks))
-        if not has_uncompleted_tasks:
+        if not self.has_uncompleted_task():
             return "Toutes les tâches sont terminées."
 
-        str_tasks = 'To Do List :\n'
-        for i, task in enumerate(self.tasks):
-            if not task.is_completed:
-                str_tasks += f"{i + 1}. {task}\n"
-        return str_tasks[:-1]
+        uncompleted_todo_list = self.get_uncompleted_tasks()
+        return uncompleted_todo_list.get_str_tasks()
