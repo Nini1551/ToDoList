@@ -1,27 +1,32 @@
 import os
 import sys
 from lib.todo_list import ToDoList
+from lib.menu import Menu
 
 
 class CLIApp:
     def __init__(self):
         self.__todo_list = ToDoList()
+        self.__menu = Menu()
+        self.__init_menu()
 
     @property
     def todo_list(self):
         return self.__todo_list
 
+    @property
+    def menu(self):
+        return self.__menu
+
     @staticmethod
     def clear_screen():
         os.system('cls' if os.name == 'nt' else 'clear')
 
-    @staticmethod
-    def get_options_menu():
-        str_menu = "1. Ajouter une tâche\n"
-        str_menu += "2. Marquer une tâche comme terminée\n"
-        str_menu += "3. Afficher la liste des tâches\n"
-        str_menu += "4. Quitter"
-        return str_menu
+    def __init_menu(self):
+        self.menu.add_option('Ajouter une tâche', self.ask_new_task)
+        self.menu.add_option('Marquer une tâche comme terminée', self.complete_task)
+        self.menu.add_option('Afficher la liste des tâches', self.display_tasks)
+        self.menu.add_option('Quitter', self.quit)
 
     def ask_new_task(self):
         description = input("Entrez la description de la tâche: ")
@@ -43,24 +48,14 @@ class CLIApp:
 
     def run(self):
         while True:
-            print(f'\n{CLIApp.get_options_menu()}')
-            choice = input("Choisissez une option (1-4): ")
+            print(f'\n{self.menu.get_menu_options()}')
+            index_choice = int(input("Choisissez une option (1-4): ")) - 1
             CLIApp.clear_screen()
 
-            if choice == "1":
-                self.ask_new_task()
-
-            elif choice == "2":
-                self.complete_task()
-
-            elif choice == "3":
-                self.display_tasks()
-
-            elif choice == "4":
-                self.quit()
-
-            else:
-                print("Option invalide. Veuillez choisir une option valide.")
+            try:
+                self.menu.execute_option(index_choice)
+            except IndexError as error:
+                print(error)
 
 
 if __name__ == "__main__":
